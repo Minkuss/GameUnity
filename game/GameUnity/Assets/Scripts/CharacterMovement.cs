@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float WalkSpeed;
-    public float HorizontalDirection = 0.08f;
+    float WalkSpeed;
+    bool IsGrounded;
+    public float HorizontalDirection = 5f;
     public float JumpForce = 10f;
-    [SerializeField] private bool IsGrounded;
+    public Animator PlayerAnimator;
     
     private Rigidbody2D PlayerRigidBody;
     private SpriteRenderer PlayerSpriteRender;
@@ -35,21 +36,26 @@ public class CharacterMovement : MonoBehaviour
     {
         PlayerSpriteRender = GetComponent<SpriteRenderer>();
         PlayerRigidBody = GetComponent<Rigidbody2D>();
+        PlayerAnimator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {   
-        transform.Translate(WalkSpeed, 0f, 0f);
+        //transform.Translate(WalkSpeed, 0f, 0f);
+        PlayerAnimator.SetFloat("MoveX", Mathf.Abs(WalkSpeed));
+        PlayerRigidBody.velocity = new Vector2(1 * WalkSpeed, PlayerRigidBody.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Ground")
             IsGrounded = true;
+            PlayerAnimator.SetBool("IsGrounded", IsGrounded);
     }
 
     private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject.tag == "Ground") {
             IsGrounded = false;
+            PlayerAnimator.SetBool("IsGrounded", IsGrounded);
         }
     }
 
