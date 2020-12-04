@@ -30,6 +30,8 @@ public class CharacterMovement : MonoBehaviour
     public void OnClickJump() {
         if (IsGrounded)
             PlayerRigidBody.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
+            IsGrounded = false;
+            PlayerAnimator.SetBool("IsGrounded", IsGrounded);    
     }
     
     void Start()
@@ -51,12 +53,12 @@ public class CharacterMovement : MonoBehaviour
             IsGrounded = true;
             PlayerAnimator.SetBool("IsGrounded", IsGrounded);
     }
-
+/*
     private void OnCollisionExit2D(Collision2D collision) {
         if (collision.gameObject.tag == "Ground") {
             IsGrounded = false;
             PlayerAnimator.SetBool("IsGrounded", IsGrounded);
         }
     }
-
+*/
 }
