@@ -8,11 +8,11 @@ public class CameraScriptY : MonoBehaviour
 
   void Update()
   {
-    if (astro.transform.position.y > transform.position.y)
+    if (astro.transform.position.y > transform.position.y + 5)
     {
       transform.position = new Vector3(transform.position.x, transform.position.y  +  5, transform.position.z);
     }
-    if (astro.transform.position.y < transform.position.y)
+    if (astro.transform.position.y < transform.position.y - 5)
     {
       transform.position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
     }
