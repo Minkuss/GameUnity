@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    float WalkSpeed;
-    bool IsGrounded;
+    private float WalkSpeed;
+    [SerializeField]
+    private bool IsGrounded;
+    [SerializeField]
+    private bool IsAbleToClimb;
+
     public float HorizontalDirection = 5f;
     public float JumpForce = 10f;
     public Animator PlayerAnimator;
@@ -28,10 +32,15 @@ public class CharacterMovement : MonoBehaviour
     }
 
     public void OnClickJump() {
-        if (IsGrounded)
+        if (IsAbleToClimb) {
+            PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, 8f);
+            IsGrounded = false;
+        }
+        else if (IsGrounded) {
             PlayerRigidBody.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
             IsGrounded = false;
-            PlayerAnimator.SetBool("IsGrounded", IsGrounded);    
+            PlayerAnimator.SetBool("IsGrounded", IsGrounded);
+            }   
     }
     
     void Start()
@@ -46,6 +55,18 @@ public class CharacterMovement : MonoBehaviour
         //transform.Translate(WalkSpeed, 0f, 0f);
         PlayerAnimator.SetFloat("MoveX", Mathf.Abs(WalkSpeed));
         PlayerRigidBody.velocity = new Vector2(1 * WalkSpeed, PlayerRigidBody.velocity.y);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+       if (other.gameObject.tag == "ClimbableObject") {
+           IsAbleToClimb = true;
+       }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+       if (other.gameObject.tag == "ClimbableObject") {
+           IsAbleToClimb = false;
+       }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
