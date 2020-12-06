@@ -13,7 +13,7 @@ public class CharacterMovement : MonoBehaviour
     public float HorizontalDirection = 5f;
     public float JumpForce = 10f;
     public Animator PlayerAnimator;
-    
+
     private Rigidbody2D PlayerRigidBody;
     private SpriteRenderer PlayerSpriteRender;
 
@@ -33,8 +33,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void OnClickJump() {
         if (IsAbleToClimb) {
-            PlayerRigidBody.velocity = new Vector2(PlayerRigidBody.velocity.x, 8f);
+            PlayerRigidBody.velocity = Vector2.zero;
+            PlayerRigidBody.AddForce(new Vector2(0f, 5f), ForceMode2D.Impulse);
             IsGrounded = false;
+            PlayerAnimator.SetBool("IsGrounded", IsGrounded);
         }
         else if (IsGrounded) {
             PlayerRigidBody.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
@@ -52,20 +54,26 @@ public class CharacterMovement : MonoBehaviour
 
     void FixedUpdate()
     {   
-        //transform.Translate(WalkSpeed, 0f, 0f);
+        if (IsAbleToClimb)
+            PlayerRigidBody.gravityScale = 0;
+        else
+            PlayerRigidBody.gravityScale = 2.5f;
+        
         PlayerAnimator.SetFloat("MoveX", Mathf.Abs(WalkSpeed));
         PlayerRigidBody.velocity = new Vector2(1 * WalkSpeed, PlayerRigidBody.velocity.y);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerStay2D(Collider2D other) {
        if (other.gameObject.tag == "ClimbableObject") {
            IsAbleToClimb = true;
+           PlayerAnimator.SetBool("IsAbleToClimb", true);
        }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
        if (other.gameObject.tag == "ClimbableObject") {
            IsAbleToClimb = false;
+           PlayerAnimator.SetBool("IsAbleToClimb", false);
        }
     }
 
@@ -74,12 +82,4 @@ public class CharacterMovement : MonoBehaviour
             IsGrounded = true;
             PlayerAnimator.SetBool("IsGrounded", IsGrounded);
     }
-/*
-    private void OnCollisionExit2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Ground") {
-            IsGrounded = false;
-            PlayerAnimator.SetBool("IsGrounded", IsGrounded);
-        }
-    }
-*/
 }
