@@ -3,32 +3,46 @@ using UnityEngine;
 
 public class CharacterHealth : MonoBehaviour
 {
-    [SerializeField]
-    private int CurrentHealthPoints;
-    public int MaxHealthPoints = 3;
+  [SerializeField]
+  private int CurrentHealthPoints;
+  public int MaxHealthPoints = 3;
 
-    public GameObject UIHealthBar;
-    private Text HealthBar;
-    private RectTransform HealthBarPos;
 
-    void Start()
+  public GameObject HealthBar1;
+
+  public GameObject HealthBar2;
+
+  public GameObject HealthBar3;
+
+  void Start()
+  {
+    CurrentHealthPoints = MaxHealthPoints;
+  }
+
+  private void Update()
+  {
+
+  }
+
+  public void ApplyDamage(int AmountOfDamage)
+  {
+    CurrentHealthPoints -= AmountOfDamage;
+    if (CurrentHealthPoints == 2)
     {
-        HealthBar = UIHealthBar.GetComponent<Text>();
-        HealthBarPos = UIHealthBar.GetComponent<RectTransform>();
-        CurrentHealthPoints = MaxHealthPoints;
-        HealthBar.text = CurrentHealthPoints.ToString();
+      Destroy(HealthBar1);
     }
-
-    private void Update() {
-        HealthBarPos.position = new Vector2(transform.position.x, transform.position.y + 2.5f);
+    if (CurrentHealthPoints == 1)
+    {
+      Destroy(HealthBar2);
     }
-
-    public void ApplyDamage(int AmountOfDamage) {
-        CurrentHealthPoints -= AmountOfDamage;
-        if (CurrentHealthPoints <= 0) {
-            Destroy(gameObject);
-        }
-        HealthBar.text = CurrentHealthPoints.ToString();
+    if (CurrentHealthPoints == 0)
+    {
+      Destroy(HealthBar3);
     }
+    if (CurrentHealthPoints <= 0)
+    {
+      Destroy(gameObject);
+    }
+  }
 
 }
