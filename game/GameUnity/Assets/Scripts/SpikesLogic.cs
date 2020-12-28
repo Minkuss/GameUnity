@@ -9,7 +9,7 @@ public class SpikesLogic : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Player") {
             other.gameObject.GetComponent<CharacterHealth>().ApplyDamage(Damage);
-            other.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 9f), ForceMode2D.Impulse);
+            other.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 2f), ForceMode2D.Impulse);
         }
     }
 }
