@@ -2349,6 +2349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveButton: {fileID: 1152959338}
+  tableScreen: {fileID: 1518911624}
 --- !u!1 &990230043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3351,7 +3352,7 @@ PrefabInstance:
     - target: {fileID: 3839720760400052798, guid: c2caf7779fc789b499447f9075294f62,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.22
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 3839720760400052798, guid: c2caf7779fc789b499447f9075294f62,
         type: 3}
